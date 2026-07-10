@@ -124,6 +124,13 @@
     .consult-text{display:inline-flex;align-items:center;gap:5px;color:var(--blush-dark);font-size:.61rem;font-weight:700;margin-top:6px;white-space:nowrap}
     .consult-text svg{width:13px;height:13px;transition:transform .2s ease}
     .product:hover .consult-text svg{transform:translateX(3px)}
+    .product__side--sizes{display:flex;flex-direction:column;align-items:flex-end;gap:8px;min-width:132px}
+    .size-price{display:inline-flex;align-items:center;justify-content:flex-end;gap:7px;color:inherit;text-decoration:none;white-space:nowrap}
+    .size-price__size{font-size:.6rem;font-weight:700;letter-spacing:.04em;color:var(--muted)}
+    .size-price__value{font-family:var(--display);font-size:1.12rem;font-weight:700;color:var(--sage-deep)}
+    .size-price svg{width:13px;height:13px;color:var(--blush-dark);transition:transform .2s ease}
+    .size-price:hover svg{transform:translateX(3px)}
+    .size-price:focus-visible{outline:3px solid rgba(212,164,154,.42);outline-offset:3px;border-radius:6px}
     .empty{display:none;background:var(--paper);border-radius:18px;padding:30px;text-align:center;color:var(--muted);margin-top:28px}
     .empty.show{display:block}
 
@@ -183,6 +190,7 @@
       .category__title h3{font-size:clamp(2rem,12vw,2.7rem)}
       .product{align-items:flex-start;padding:17px 15px;min-height:unset;gap:10px}
       .product__side{max-width:42%;flex:0 1 42%}
+      .product__side--sizes{max-width:44%;flex:0 1 44%}
       .price{font-size:1.08rem;white-space:normal}
       .consult-text{font-size:.58rem;white-space:normal;text-align:right;justify-content:flex-end}
       .closing h2{font-size:clamp(2.45rem,14vw,3.6rem)}
@@ -198,6 +206,8 @@
       .deadline strong{font-size:1.15rem}
       .product{flex-direction:column;align-items:stretch}
       .product__side{max-width:none;flex:0 0 auto;align-items:flex-start;text-align:left}
+      .product__side--sizes{align-items:flex-start}
+      .size-price{justify-content:flex-start}
       .consult-text{text-align:left;justify-content:flex-start}
       .price{text-align:left}
     }
@@ -299,7 +309,8 @@
       { id: 'fatias', anchor: 'bolo-em-fatia', label: 'Bolo em fatia', title: 'Bolo em fatia', description: 'Uma experiência completa em porções individuais.', noteTitle: 'Valor por fatia', note: 'Ideal para provar sabores diferentes ou montar kits.' },
       { id: 'brigadeiros', anchor: 'brigadeiros', label: 'Brigadeiros', title: 'Brigadeiros', description: 'Clássicos, gourmet e opções de personalização para deixar a mesa ainda mais especial.', noteTitle: 'Sabores variados', note: 'A quantidade e a personalização são confirmadas pelo WhatsApp.' },
       { id: 'geladao', anchor: 'geladao-gourmet', label: 'Geladão gourmet', title: 'Geladão gourmet', description: 'Sobremesas geladas, cremosas e intensas, perfeitas para qualquer ocasião.', noteTitle: 'Prontos para encantar', note: 'Consulte disponibilidade dos sabores no dia do pedido.' },
-      { id: 'cookies', anchor: 'cookies', label: 'Cookies', title: 'Cookies', description: 'Massa macia, recheio generoso e versões para todos os níveis de vontade.', noteTitle: 'Valor por unidade', note: 'Consulte disponibilidade e prazo.' }
+      { id: 'cookies', anchor: 'cookies', label: 'Cookies', title: 'Cookies', description: 'Massa macia, recheio generoso e versões para todos os níveis de vontade.', noteTitle: 'Valor por unidade', note: 'Consulte disponibilidade e prazo.' },
+      { id: 'sobremesas', anchor: 'sobremesas', label: 'Sobremesas', title: 'Sobremesas', description: 'Sobremesas cremosas em dois tamanhos, perfeitas para compartilhar em família ou levar para uma ocasião especial.', noteTitle: 'Dois tamanhos', note: 'Escolha entre 900 g e 1,5 kg ao consultar pelo WhatsApp.' }
     ];
     const products = [
       { id:'caseiro-laranja', category:'caseiros', name:'Bolo de laranja', desc:'Massa de laranja com cobertura levemente caramelizada de laranja.', price:46, priceLabel:'R$ 46,00', badge:'Mais vendido', unit:'unidade' },
@@ -360,7 +371,17 @@
 
       { id:'cookie-tradicional', category:'cookies', name:'Cookie tradicional', desc:'Cookie tradicional com massa macia e sabor marcante.', price:18, priceLabel:'R$ 18,00', unit:'unidade' },
       { id:'cookie-nutella', category:'cookies', name:'Cookie de Nutella', desc:'Cookie com recheio de Nutella.', price:20, priceLabel:'R$ 20,00', unit:'unidade' },
-      { id:'cookie-torta', category:'cookies', name:'Torta cookie Nutella', desc:'Versão especial em formato de torta cookie com Nutella.', price:22, priceLabel:'R$ 22,00', unit:'unidade' }
+      { id:'cookie-torta', category:'cookies', name:'Torta cookie Nutella', desc:'Versão especial em formato de torta cookie com Nutella.', price:22, priceLabel:'R$ 22,00', unit:'unidade' },
+
+      { id:'sobremesa-maracuja-brigadeiro', category:'sobremesas', name:'Maracujá com brigadeiro', desc:'Deliciosa mousse de maracujá com brigadeiro, finalizada com granulado.', variants:[{name:'900 g',price:80,priceLabel:'R$ 80,00'},{name:'1,5 kg',price:140,priceLabel:'R$ 140,00'}], priceLabel:'900 g R$ 80,00 · 1,5 kg R$ 140,00', selectableVariants:true },
+      { id:'sobremesa-surpresa-morango', category:'sobremesas', name:'Surpresa de morango', desc:'Creme de ninho, morango e brigadeiro, finalizada com granulado.', variants:[{name:'900 g',price:75,priceLabel:'R$ 75,00'},{name:'1,5 kg',price:130,priceLabel:'R$ 130,00'}], priceLabel:'900 g R$ 75,00 · 1,5 kg R$ 130,00', selectableVariants:true },
+      { id:'sobremesa-surpresa-uva', category:'sobremesas', name:'Surpresa de uva', desc:'Creme de ninho, uva e brigadeiro, finalizada com granulado.', variants:[{name:'900 g',price:70,priceLabel:'R$ 70,00'},{name:'1,5 kg',price:120,priceLabel:'R$ 120,00'}], priceLabel:'900 g R$ 70,00 · 1,5 kg R$ 120,00', selectableVariants:true },
+      { id:'sobremesa-surpresa-mista', category:'sobremesas', name:'Surpresa mista', desc:'Creme de ninho, uva, morango e brigadeiro, finalizada com granulado.', variants:[{name:'900 g',price:70,priceLabel:'R$ 70,00'},{name:'1,5 kg',price:125,priceLabel:'R$ 125,00'}], priceLabel:'900 g R$ 70,00 · 1,5 kg R$ 125,00', selectableVariants:true },
+      { id:'sobremesa-ninho-geleia', category:'sobremesas', name:'Ninho com geleia', desc:'Creme de ninho com geleia de frutas vermelhas.', variants:[{name:'900 g',price:80,priceLabel:'R$ 80,00'},{name:'1,5 kg',price:140,priceLabel:'R$ 140,00'}], priceLabel:'900 g R$ 80,00 · 1,5 kg R$ 140,00', selectableVariants:true },
+      { id:'sobremesa-banoffee', category:'sobremesas', name:'Banoffee', desc:'Base de biscoito, banana, doce de leite, canela e nata.', variants:[{name:'900 g',price:90,priceLabel:'R$ 90,00'},{name:'1,5 kg',price:150,priceLabel:'R$ 150,00'}], priceLabel:'900 g R$ 90,00 · 1,5 kg R$ 150,00', selectableVariants:true },
+      { id:'sobremesa-pave-tradicional', category:'sobremesas', name:'Pavê tradicional', desc:'Creme branco, bolacha maisena e ganache de chocolate, finalizado com raspas de chocolate.', variants:[{name:'900 g',price:75,priceLabel:'R$ 75,00'},{name:'1,5 kg',price:130,priceLabel:'R$ 130,00'}], priceLabel:'900 g R$ 75,00 · 1,5 kg R$ 130,00', selectableVariants:true },
+      { id:'sobremesa-pave-abacaxi', category:'sobremesas', name:'Pavê de abacaxi', desc:'Creme de ninho, bolacha maisena e abacaxi em calda, finalizado com abacaxi.', variants:[{name:'900 g',price:80,priceLabel:'R$ 80,00'},{name:'1,5 kg',price:140,priceLabel:'R$ 140,00'}], priceLabel:'900 g R$ 80,00 · 1,5 kg R$ 140,00', selectableVariants:true },
+      { id:'sobremesa-pave-coco', category:'sobremesas', name:'Pavê de coco', desc:'Creme de coco fresco ralado e bolacha maisena, finalizado com coco fresco ralado.', variants:[{name:'900 g',price:85,priceLabel:'R$ 85,00'},{name:'1,5 kg',price:145,priceLabel:'R$ 145,00'}], priceLabel:'900 g R$ 85,00 · 1,5 kg R$ 145,00', selectableVariants:true }
     ];
 
     const visibleCategories = categories.filter(c => c.id !== 'all');
@@ -435,6 +456,19 @@ Categoria: ${cat ? cat.label : 'Cardápio'}.${price}
 Você pode me confirmar a disponibilidade e os detalhes?`;
     }
 
+    function variantMessage(product, variant) {
+      const cat = categoryOf(product.category);
+      const variantPrice = variant.priceLabel || '';
+      return `Oii, Sara! Vi seu cardápio online e gostaria de saber mais sobre:
+
+*${product.name}*
+Categoria: ${cat ? cat.label : 'Cardápio'}
+Tamanho: ${variant.name}
+Valor informado no cardápio: ${variantPrice}.
+
+Você pode me confirmar a disponibilidade e os detalhes?`;
+    }
+
     function categoryMessage(category) {
       return `Oii, Sara! Vi seu cardápio online e gostaria de saber mais sobre a categoria *${category.label}*. Você pode me orientar sobre as opções e a disponibilidade?`;
     }
@@ -473,6 +507,24 @@ Você pode me confirmar a disponibilidade e os detalhes?`;
         const cards = items.map(product => {
           const badge = product.badge ? `<span class="badge">${product.badge}</span>` : '';
           const flavors = product.flavors ? `<div class="flavors">${product.flavors.map(f => `<span>${f}</span>`).join('')}</div>` : '';
+
+          if (product.selectableVariants && product.variants?.length) {
+            const sizeLinks = product.variants.map(variant => `<a class="size-price" href="${waLink(variantMessage(product, variant))}" target="_blank" rel="noopener noreferrer" aria-label="Consultar ${product.name}, tamanho ${variant.name}, no WhatsApp">
+              <span class="size-price__size">${variant.name}</span>
+              <span class="size-price__value">${variant.priceLabel}</span>
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10h11M11 6l4 4-4 4"/></svg>
+            </a>`).join('');
+
+            return `<article class="product reveal">
+              <div class="product__body">
+                <div class="product__top"><h4>${product.name}</h4>${badge}</div>
+                <p class="product__desc">${product.desc || ''}</p>
+                ${flavors}
+              </div>
+              <div class="product__side product__side--sizes">${sizeLinks}</div>
+            </article>`;
+          }
+
           return `<a class="product reveal" href="${waLink(productMessage(product))}" target="_blank" rel="noopener noreferrer" aria-label="Consultar ${product.name} no WhatsApp">
             <div class="product__body">
               <div class="product__top"><h4>${product.name}</h4>${badge}</div>
